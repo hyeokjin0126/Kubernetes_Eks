@@ -1,6 +1,1 @@
-```
-curl -o service.yaml https://raw.githubusercontent.com/wngnl-dev/AWS/main/EKS/NginxController/service.yaml
-```
-```
-curl -o ingress.yaml https://raw.githubusercontent.com/wngnl-dev/AWS/main/EKS/NginxController/ingress.yaml
-```
+### [https://hyeokjin0126.tistory.com/11](https://hyeokjin0126.tistory.com/11)
