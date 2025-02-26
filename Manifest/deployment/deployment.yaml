@@ -4,18 +4,18 @@ metadata:
   name: <deployment 이름>
   namespace: <namespace 이름>
   labels:
-    <key> : <value>  # Deployment가 관리하는 Pod를 선택하기 위한 레이블
+    <key> : <value>  # pod label
 spec:
   replicas: <생성할 파드 수>
   selector:
     matchLabels:
-      <key> : <value> # Deployment가 관리하는 Pod를 선택하기 위한 레이블
+      <key> : <value>  # pod label
   template:
     metadata:
       labels:
-        <Pod Key> : <Pod Value> # 각 Pod에 할당되는 레이블
+        <Pod Key> : <Pod Value> # pod label
     spec:
-      nodeSelector: # Fargate Profile을 사용할 시 삭제
+      nodeSelector:  # node label
         <Node key>: <Node Value>  
       serviceAccountName: <ServiceAccount 이름>
       containers:
@@ -28,4 +28,3 @@ spec:
               cpu: 500m
             requests:
               cpu: 200m
-
