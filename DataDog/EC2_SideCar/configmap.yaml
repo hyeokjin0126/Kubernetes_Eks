@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    k8s-app: fluent-bit
+  name: fluent-bit-config
+  namespace: <>
+data:
+  fluent-bit.conf: |
+    [SERVICE]
+        Flush         1
+        Log_Level     info
+        Daemon        off
+        Parsers_File  parsers.conf
+        HTTP_Server   On
+        HTTP_Listen   0.0.0.0
+        HTTP_Port     2020
+
+    @INCLUDE <deployment 이름>.conf
+  
+  <deployment 이름>.conf: |
+    [INPUT]
+        Name                  tail
+        Tag                   <deployment 이름>.*
+        Path                  /var/log/containers/<deployment 이름>*
+        multiline.parser      docker, cri
+        DB                    /var/log/flb_kube.db
+        Mem_Buf_Limit         5MB
+        Skip_Long_Lines       On
+        Refresh_Interval      10
+
+    [FILTER]
+        Name                  kubernetes
+        Match                 <deployment 이름>.*
+        Merge_Log             On
+        Merge_Log_Key         log_processed
+        K8S-Logging.Parser    On
+        K8S-Logging.Exclude   On
+
+    [FILTER]
+        Name                grep
+        Match               <deployment 이름>.*
+        Regex               log /v1
+
+    [OUTPUT]
+        Name         datadog
+        Match        <deployment 이름>.*
+        Host         http-intake.logs.us5.datadoghq.com
+        TLS          On
+        compress     gzip
+        dd_service   kubernetes
+        dd_source    kubernetes
+        dd_tags      env:prd,team:skills
+        apikey       ${DD_API_KEY}
