@@ -37,7 +37,7 @@ data:
     [INPUT]
         Name                tail
         Path                /log/*.log
-        Tag                 service-a
+        Tag                 service-b
         Refresh_Interval    10
         Mem_Buf_Limit       50MB   
         Skip_Long_Lines     On      
@@ -62,7 +62,7 @@ data:
     [INPUT]
         Name                tail
         Path                /log/*.log
-        Tag                 service-a
+        Tag                 service-c
         Refresh_Interval    10
         Mem_Buf_Limit       50MB   
         Skip_Long_Lines     On      
